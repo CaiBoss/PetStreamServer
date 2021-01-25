@@ -1,0 +1,98 @@
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/pet_stream?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    #SpringBoot 默认是不注入这些属性值的，需要自己绑定
+    #druid 数据源专有配置
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+
+    #配置监控统计拦截的filters，stat:监控统计、log4j：日志记录、wall：防御sql注入
+    #如果允许时报错  java.lang.ClassNotFoundException: org.apache.log4j.Priority
+    #则导入 log4j 依赖即可，Maven 地址：https://mvnrepository.com/artifact/log4j/log4j
+    filters: stat,wall,log4j
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+  #邮件设置
+#  mail:
+#    host: smtp.163.com
+#    username:
+#    password:
+#    properties:
+#      mail.smtp.port: 465
+#      mail.smtp.socketFactory.fallback: false
+#      mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
+#      mail.smtp.socketFactory.port: 465
+  #文件大小设置
+#  servlet:
+#    multipart:
+#      enabled: true
+#      max-request-size: 10MB
+#      max-file-size: 10MB
+#      file-size-threshold: 20MB
+
+  redis:
+    database: 11
+    host: 127.0.0.1
+    port: 6379
+
+#  data:
+#    elasticsearch:
+#      cluster-name: pet_stream
+#      cluster-nodes: 127.0.0.1:9300
+  #      cluster-nodes: 47.115.88.155:9300
+
+#  quartz:
+#    job-store-type: jdbc
+#    scheduler-name: forumScheduler
+#    properties:
+#      org:
+#        quartz:
+#          scheduler:
+#            instanceId: AUTO
+#          jobStore:
+#            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+#            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+#            isClustered: true
+#          threadPool:
+#            class: org.quartz.simpl.SimpleThreadPool
+#            threadCount: 5
+
+server:
+  port: 8181
+  servlet:
+    context-path: /pet_stream
+
+mybatis:
+  mapper-locations: classpath:cn/chuareed/pet_stream_server/mapper/*.xml # 配置 Mapper XML 地址
+  type-aliases-package: cn.chuareed.pet_stream_server.pojo # 配置数据库实体别名
+  configuration:
+    mapUnderscoreToCamelCase: true
+
+# 七牛云的配置
+#qiniu:
+#  key:
+#    access:
+#    secret:
+#  bucket:
+#    avatar:
+#      name:
+#      url:
+#    picture:
+#      name:
+#      url:
